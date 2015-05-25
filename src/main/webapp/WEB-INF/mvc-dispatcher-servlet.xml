@@ -27,8 +27,9 @@
 
 	<!-- Used to serve static resources like css, images and javascript files -->
 	<mvc:resources mapping="/resources/**" location="/resources/style/" />
-	<mvc:resources mapping="/images/**"
-		location="file:/home/marina/Marina/ArtPortalImages/" />
+	<mvc:resources mapping="/images/**" location="file:c:/ArtPortalImages/" />
+	<!-- 	location="file:/home/marina/Marina/ArtPortalImages/" /> -->
+		
 
 	<!-- locale -->
 	<bean id="messageSource"
