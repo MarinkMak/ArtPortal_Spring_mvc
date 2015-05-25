@@ -23,9 +23,6 @@ public class AdminController {
 	@Autowired
 	@Qualifier("userService")
 	private IUserService userService;
-//	@Autowired
-//	@Qualifier("artWorkService")
-//	private IArtWorkService artWorkService;
 
 	private int pageSize = 6;
 	private int pageNumber = 1;

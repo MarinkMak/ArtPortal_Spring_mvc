@@ -146,25 +146,25 @@ public class UserController {
 	}
 	
 	///????
-	@RequestMapping(value="/submitregister",method = RequestMethod.GET)
-	public String registerLang(Model model,HttpServletRequest request, HttpSession session,
-			@Valid @ModelAttribute User user, BindingResult bindingResult) {
-		boolean isLoginUnique = checkLoginUnique(user.getLogin(),model);
-		boolean isLoginNotEmpty = checkLoginNotEmpty(user.getLogin(),model);
-		boolean isPswConfirmed = checkPasswordConfirm(user.getPassword(),user.getConfirmPassword(),model);
-		if (!bindingResult.hasErrors()&&isLoginUnique&&isLoginNotEmpty&&isPswConfirmed){
-			session.invalidate();
-			session = request.getSession(); // create new session
-			session.setAttribute("login",user.getLogin());
-			session.setAttribute("user", user);
-			//save new user in database
-			userService.saveUser(user);
-			//redirect on account page for edit
-			return "redirect:/account/"+user.getLogin();
-		}
-		return "register";
-	}
-	
+//	@RequestMapping(value="/submitregister",method = RequestMethod.GET)
+//	public String registerLang(Model model,HttpServletRequest request, HttpSession session,
+//			@Valid @ModelAttribute User user, BindingResult bindingResult) {
+//		boolean isLoginUnique = checkLoginUnique(user.getLogin(),model);
+//		boolean isLoginNotEmpty = checkLoginNotEmpty(user.getLogin(),model);
+//		boolean isPswConfirmed = checkPasswordConfirm(user.getPassword(),user.getConfirmPassword(),model);
+//		if (!bindingResult.hasErrors()&&isLoginUnique&&isLoginNotEmpty&&isPswConfirmed){
+//			session.invalidate();
+//			session = request.getSession(); // create new session
+//			session.setAttribute("login",user.getLogin());
+//			session.setAttribute("user", user);
+//			//save new user in database
+//			userService.saveUser(user);
+//			//redirect on account page for edit
+//			return "redirect:/account/"+user.getLogin();
+//		}
+//		return "register";
+//	}
+//	
 
 	
 	@RequestMapping(value = {"/workInfo/login","/login"}, method = RequestMethod.POST)
@@ -176,7 +176,7 @@ public class UserController {
 			session = request.getSession(); // create new session
 			//fixed trouble with first letter in login
 			session.setAttribute("login", userService.findUserByLogin(login).getLogin());
-			session.setAttribute("user", userService.findUserByLogin(login));
+			//session.setAttribute("user", userService.findUserByLogin(login));
 			return "home";
 		}
 		return "login";
