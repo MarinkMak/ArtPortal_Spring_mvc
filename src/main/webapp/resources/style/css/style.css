@@ -1,0 +1,268 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 100%;
+	line-height: 1em;
+} 	
+
+html {  background: url(images/texture.png) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+}
+
+h1 {font-size:50px;color:#ad1027 ;font-weight:normal}		
+h1 i{font-size:50px;color: #dd5a0b;font-weight:normal}
+h2 {font-size:30px;line-height:1.2em;color:#150853;font-weight:normal}	
+h3 {font-size:25px;line-height:1.2em;color:black;font-weight:normal}	
+
+h4 {font-size:1em;line-height:1.429em;color:#1A5E08;font-weight:normal}	
+h5 {font-size:20px;line-height:1.429em;color:#0404B4;font-weight:normal}
+.you{float:right;}
+
+a {color:#0404B4;outline:none;text-decoration:none; border-radius:5px;padding:10px 5px 10px 5px;} 
+a:hover {color:#5882FA} 	
+.menuView{font-size:20px;line-height:1.2em;}														
+.account{ border-radius:5px; color:#150853;margin-left:3%;}
+.account:hover {color:#CBC5EB;background-color:#150853;}
+.accountActive{color:#CBC5EB;background-color:#150853; margin-left:3%}
+.accountActive:hover {color:#CBC5EB;background-color:#150853;}
+.pagin{ border-radius:5px; color:#0404B4;margin-left:2%;margin-right:2% }
+.pagin:hover {color:#5882FA;}
+.pagin_label{ border-radius:5px; color:#87CEFA;margin-left:2%;margin-right:2% }
+
+.bg_color{
+	background-color:#CBC5EB
+}
+small {color:#150853}
+big{line-height:1.429em;color:#ad1027;font-weight:normal}
+
+
+select{border-radius:5px;width:180px;}
+input {opacity:1;background-color:#fff;font-color:black;border-radius:5px;}
+.textView{color:black;font-weight:normal}
+.textWorkNameView{color:#0404B4;font-weight:normal}
+.textAuthNameView{color:#150853;font-weight:normal}
+.textWorkTypeView{color:#5E5974;font-weight:normal}
+.messageView{color:#ad1027;font-weight:normal;}
+.errrorView{color:#ad1027;font-weight:normal;}
+.textLoginView{color:#dd5a0b;font-size:1.3em;font-weight:normal;}
+.textCompetitionView{color:#ad1027;font-weight:normal;}
+.textCommentTimeView{color:#1A5E08;font-weight:normal;margin-left:5px;}
+.textCommentView{color:#150853;font-weight:normal; }
+.red{color:#ad1027;}
+.green{color:green;}
+
+button{font-weight:normal;
+	border-radius:5px;
+	cursor:pointer;
+	margin-bottom:20px; 
+	margin-top:5px;
+	margin-left:5px;
+	margin-right:5px;
+	color:black;
+	border-style: solid;
+	
+}
+
+.buttonOk{width:30%;background-color:#e7cdbe;color:#813919;border-color:#906A6F;float:right;}
+.buttonApply{width:42%;background-color:#e7cdbe;color:#813919;border-color:#906A6F;float:right;}
+.buttonCancel{width:42%;background-color:#CBC5EB;color:#150853;border-color:#8578C7;float:left; }
+.buttonEdit{width:60%;background-color:FFFAF0;color:8B4513;border-color:FAEBD7;float:right;margin:1px}
+.buttonEdit2{width:60%;background-color:C1FFC1;color:458B74;border-color:9BCD9B;float:right;margin:1px}
+.buttonFind{width:60px;background-color:C1FFC1;color:458B74;border-color:9BCD9B;margin:1px}
+
+.comment_buttons_width{width:20%;}
+
+.fleft {float:left; padding-left:20px;}
+.fright {float:right; padding-left:10px}
+
+.avatar{
+	width:140px;
+	height:140px;
+	margin-left: 60px;
+}
+.avatar_comment{
+	width:70px;
+	height:70px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+.lang{
+	height:20px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+.icon{
+	height:15px;
+	margin-left: 5px;
+}
+.artwork{
+	height:140px;
+	margin-left: 10px;
+	border-style: double;
+	border-color: #401719;
+	border-width: 5px;
+}
+.present{
+	height:120px;
+	margin-left: 10px;
+	border-style: none;
+	border-color: #401719;
+	border-width: 5px;
+}
+.artworkInfo{
+	height:200px;
+	margin-left: 1px;
+	
+}
+
+.formView {background-color:#f9f9f9;
+			border-color:#f9f9f9;
+			border-radius:20px;
+			font-color: black;
+			padding:10px;
+			width:90%		
+}
+.formPswView {background-color:#f9f9f9;
+			border-radius:20px;
+			font-color: black;
+			padding:10px;
+			width:75%;
+			margin-left:3%; 
+			border-color:#f9f9f9;		
+			
+}
+.formAccountView {
+			border-radius:20px;
+			border-color:#f9f9f9;
+			font-color: black;
+			padding:10px;
+			width:70%;
+			
+				
+}
+.formWorksView {
+			border-radius:20px;
+			border-color:#f9f9f9;
+			font-color: black;
+			padding:10px;
+			width:100%;
+}
+
+
+table{background-color:#f9f9f9;
+		border-color:#f9f9f9;
+} 
+
+.sizeCommentView{
+	width: 700px;
+	float:left;
+	padding-left:20px;
+}
+.tableWorksView {
+			padding:10px;
+			width:400px;
+			margin:10px;
+			float:left;
+}
+.tableCompetitionView {
+			padding:10px;
+			width:600px;
+			float:left;
+			margin-left:100px;
+			margin-bottom:15px;
+			
+}
+
+.tableAccountView{
+		float:left;
+		padding:5px;
+		
+}
+.tableUserInfoView{
+		align:center;
+		padding:5px;
+		width:600px;
+}
+.tableUIWorksView{
+		float:left;
+		padding:5px;
+		width:350px;
+		margin-left: 10px;
+		margin-right: 10px;
+}
+.tableAdminView{
+		float:left;
+		margin-left: 100px;
+		width:80%;
+}
+
+.wd{
+	width:800px;
+	background-color:#f9f9f9;
+	border-color:#f9f9f9;
+}
+
+.tdView {
+			width:200px;
+			float:left; padding-left:20px;
+}
+
+
+
+.fieldsetView{background-color:#f9f9f9;
+				border-style:none;
+			
+}
+.fieldsetUIWorksView{background-color:#f9f9f9;
+					border-style:none;
+			
+}
+
+
+/*=========================*/
+/* tiles templates parts */
+.page {
+	min-height: 100%;
+	position: relative;
+}
+
+.header {
+	color: white; 
+	padding : 10px;
+	width: 100%;
+	margin-left: 10px;
+	width: 95%;
+}
+
+.content {
+	padding: 10px;
+	padding-bottom: 20px; /* Height of the footer element */
+	overflow: hidden;
+}
+
+.menu {
+	padding: 40px 50px 0px 5px;
+	width: 180px;
+	float: left;
+	font-size:20px;
+}
+
+.body {
+	color:#fff;
+	margin: 0px 10px 0px 230px;
+	width: 75%;
+}
+
+.footer {
+	color: white;
+	clear: both;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	text-align: left;
+	width: 100%;
+	height: 20px;
+	float: bottom;
+}

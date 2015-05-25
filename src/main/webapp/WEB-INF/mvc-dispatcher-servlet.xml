@@ -1,0 +1,91 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<mvc:annotation-driven />
+
+	<context:component-scan base-package="com.artportal.controller" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/pages directory -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/pages/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+	<!-- Used to serve static resources like css, images and javascript files -->
+	<mvc:resources mapping="/resources/**" location="/resources/style/" />
+	<mvc:resources mapping="/images/**"
+		location="file:/home/marina/Marina/ArtPortalImages/" />
+
+	<!-- locale -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="en" />
+	</bean>
+
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="lang"></property>
+		</bean>
+	</mvc:interceptors>
+
+<!-- ??
+	<bean
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource" >
+			<property name="basenames" value="WEB-INF/i18n/messages,WEB-INF/i18n/application"/>
+			<property name="fallbackToSystemLocale" value="false"/>
+			<property name="fileEncodings" value="UTF-8"/>
+			<property name="defaultEncoding" value="UTF-8"/>
+	</bean> -->
+
+	<!-- Tiles configuration -->
+	<bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/tiles/tiles-definitions.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- For files upload -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="500000" />
+	</bean>
+
+	<!-- exception mapping -->
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="com.artportal.exception.CustomException">
+					error/custom_error
+				</prop>
+				<prop key="java.lang.Exception">error/error</prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+</beans>
