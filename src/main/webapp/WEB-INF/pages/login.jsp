@@ -16,7 +16,12 @@
 				<table  align="center" width="20%" border="0" cellspacing="7" cellpadding="4">
 					<tr>
 						<td colspan="2" align="right" width="30%">
-							<div class="errrorView"><c:out value="${failLoginMsg}"></c:out></div>
+							<c:if test="${failLoginMsg}">
+								<div class="errrorView"><spring:message code="account_blocked"/></div>
+							</c:if>
+							<c:if test="${wrongLoginMsg}">
+								<div class="errrorView"><spring:message code="wrong_login"/></div>
+							</c:if>
 						</td>
 					</tr>
 					<tr>

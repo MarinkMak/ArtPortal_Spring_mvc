@@ -43,22 +43,44 @@
 						<td align="right" width="15%">
 							<span class="textView"><spring:message code="login"/>:</span></td>
 						<td width="15%"><sf:input path="login" type="text" ></sf:input></td>
-						<td align="left" width="30%"> <div class="errrorView"><sup>* </sup>  <c:out value="${checkLoginUniqueMsg}"/>
-																<sf:errors path="login" cssClass="error" /></div> </td>
+						<td align="left" width="30%">
+							 <div class="errrorView"><sup>* </sup>
+								<c:if test="${checkLoginUniqueMsg}">
+									<spring:message code="used_login"/>
+								</c:if>
+								<c:if test="${emptyLoginMsg}">
+									<spring:message code="empty_login"/>
+								</c:if>
+								<sf:errors path="login" cssClass="error" />
+							</div> 
+						</td>
 					</tr>
 					
 					<tr>
 						<td align="right" width="15%">
 							<span class="textView"><spring:message code="psw"/>:</span></td>
 						<td width="15%"><sf:input path="password" type="password" ></sf:input></td>
-						<td align="left" width="70%"><div class="errrorView"><sup>*  </sup> <sf:errors path="password" cssClass="error" />    </div></td>
+						<td align="left" width="70%">
+							<div class="errrorView"><sup>*  </sup>
+								 <sf:errors path="password" cssClass="error" />  
+						   </div>
+						</td>
 					</tr>
 			
 					<tr>
 						<td align="right" width="15%">
 							<span class="textView"><spring:message code="confirm_psw"/>:</span></td>
 						<td width="15%"><sf:input path="confirmPassword" type="password" name="confirmPassword"></sf:input></td>
-						<td align="left" width="30%"> <div class="errrorView"><sup>* </sup> <c:out value="${confirmPswMsg}"/></div></td>
+						<td align="left" width="30%">
+							<div class="errrorView"><sup>* </sup>
+								<c:if test="${emptyPswMsg}">
+									<spring:message code="empty_psw"/>
+								</c:if>
+								<c:if test="${confirmPswMsg}">
+									<spring:message code="psw_not_confirmed"/>
+								</c:if>
+							</div>
+						</td>
 					</tr>
 					
 					<tr>

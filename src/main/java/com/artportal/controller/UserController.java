@@ -28,18 +28,6 @@ public class UserController {
 	@Qualifier("userService")
 	private IUserService userService;
 	
-	private String confirmPswMsg;
-	private String checkLoginMsg;
-	private String failLoginMsg;
-	
-	public UserController() {
-	}
-	public UserController(IUserService userService, HttpServletRequest request, HttpSession session) {
-		this.userService = userService;
-		checkLoginMsg = "";
-		confirmPswMsg = "";
-		failLoginMsg = "";
-	}
 
 	//loads modelAttribute object for account view
 	@RequestMapping(value="account/{userlogin}", method=RequestMethod.GET)
@@ -55,6 +43,8 @@ public class UserController {
 	}
 	
 
+//---------- edit user data ---------------	
+	
 	@RequestMapping(value="account/submitAccountEdit",method = RequestMethod.POST)
 	public String accountEdit(Model model,HttpServletRequest request, HttpSession session,
 			@Valid @ModelAttribute User user, BindingResult bindingResult) {
@@ -121,10 +111,8 @@ public class UserController {
 			return "accountavatar";
 	}
 	
-	
-	
 
-/////////////////////////////////////////	
+//----------- register----------	
 	
 	@RequestMapping(value="/submitregister",method = RequestMethod.POST)
 	public String register(Model model,HttpServletRequest request, HttpSession session,
@@ -136,7 +124,7 @@ public class UserController {
 			session.invalidate();
 			session = request.getSession(); // create new session
 			session.setAttribute("login",user.getLogin());
-			session.setAttribute("user", user);
+			//session.setAttribute("user", user);//
 			//save new user in database
 			userService.saveUser(user);
 			//redirect on account page for edit
@@ -145,27 +133,7 @@ public class UserController {
 		return "register";
 	}
 	
-	///????
-//	@RequestMapping(value="/submitregister",method = RequestMethod.GET)
-//	public String registerLang(Model model,HttpServletRequest request, HttpSession session,
-//			@Valid @ModelAttribute User user, BindingResult bindingResult) {
-//		boolean isLoginUnique = checkLoginUnique(user.getLogin(),model);
-//		boolean isLoginNotEmpty = checkLoginNotEmpty(user.getLogin(),model);
-//		boolean isPswConfirmed = checkPasswordConfirm(user.getPassword(),user.getConfirmPassword(),model);
-//		if (!bindingResult.hasErrors()&&isLoginUnique&&isLoginNotEmpty&&isPswConfirmed){
-//			session.invalidate();
-//			session = request.getSession(); // create new session
-//			session.setAttribute("login",user.getLogin());
-//			session.setAttribute("user", user);
-//			//save new user in database
-//			userService.saveUser(user);
-//			//redirect on account page for edit
-//			return "redirect:/account/"+user.getLogin();
-//		}
-//		return "register";
-//	}
-//	
-
+//--------- login ---------------
 	
 	@RequestMapping(value = {"/workInfo/login","/login"}, method = RequestMethod.POST)
 	public String login(Model model, HttpServletRequest request,
@@ -176,13 +144,13 @@ public class UserController {
 			session = request.getSession(); // create new session
 			//fixed trouble with first letter in login
 			session.setAttribute("login", userService.findUserByLogin(login).getLogin());
-			//session.setAttribute("user", userService.findUserByLogin(login));
+			session.setAttribute("user", userService.findUserByLogin(login));//
 			return "home";
 		}
 		return "login";
 	}
 	
-	
+//----------- logout -------------	
 	
 	@RequestMapping(value = {"/workInfo/logout","/userInfo/logout","/logout","account/logout"}, method = RequestMethod.GET)
 	public String logout(Model model, HttpServletRequest request,HttpSession session){
@@ -195,14 +163,12 @@ public class UserController {
 		User user = userService.findUserByLogin(login);
 		if (user!=null&&user.getPassword().equals(password)){
 			if(user.getActive()==false){
-				failLoginMsg="Your account was blocked!";
-				model.addAttribute("failLoginMsg", failLoginMsg);
+				model.addAttribute("failLoginMsg", true);
 				return false;
 			}
 			return true;			
 		}
-		failLoginMsg="Wrong login or password!";
-		model.addAttribute("failLoginMsg", failLoginMsg);
+		model.addAttribute("wrongLoginMsg", true);
 		return false;
 	}
 	
@@ -211,8 +177,7 @@ public class UserController {
 		if (userService.findUserByLogin(login)==null){
 			return true;
 		}else{
-			checkLoginMsg="This Login is already used...";
-			model.addAttribute("checkLoginUniqueMsg", checkLoginMsg);
+			model.addAttribute("checkLoginUniqueMsg", true);
 		}
 		return false;
 	}
@@ -221,8 +186,7 @@ public class UserController {
 		if (!Pattern.matches("[\\s]+",login)){
 			return true;
 		}else{
-			checkLoginMsg="Login can not be empty...";
-			model.addAttribute("checkLoginUniqueMsg", checkLoginMsg);
+			model.addAttribute("emptyLoginMsg", true);
 		}
 		return false;
 	}
@@ -230,15 +194,13 @@ public class UserController {
 	//register service
 	public boolean checkPasswordConfirm(String password, String confirmPassword,Model model){
 		if(password==null){
-			confirmPswMsg = "Password can't be empty!";
-			model.addAttribute("confirmPswMsg", confirmPswMsg);
+			model.addAttribute("emptyPswMsg", true);
 			return false;
 		}
 		if(confirmPassword!=null&&password.equals(confirmPassword)){
 			return true;
 		}
-		confirmPswMsg = "Password is not confirmed!";
-		model.addAttribute("confirmPswMsg", confirmPswMsg);
+		model.addAttribute("confirmPswMsg", true);
 		return false;
-	}
+	}  
 }
