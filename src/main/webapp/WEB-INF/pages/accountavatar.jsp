@@ -38,7 +38,11 @@
 					
 						<tr >
 							<td></td>
-							<td><div class="errrorView"><c:out value="${loadMsg}"/></div></td>
+							<td><div class="errrorView">
+								<c:if test="${loadJpgMsg}">
+									<spring:message code="load_jpg"/>
+								</c:if>
+							</div></td>
 						</tr>
 						<tr >
 							<td><span class="textView"><spring:message code="load_new_avatar"/>:</span></td>

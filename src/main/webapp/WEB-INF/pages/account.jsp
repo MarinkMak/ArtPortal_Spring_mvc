@@ -30,7 +30,19 @@
 				
 				<hr  color="#5E5974"/>
 			</div>
-				<h4 align="center"><c:out value="${accountEditMsg}" ></c:out></h4>
+				<h4 align="center">
+				<c:if test="${accountDataEditMsg}">
+					<spring:message code="data_changed"/>
+				</c:if>
+				<c:if test="${accountPswEditMsg}">
+					<spring:message code="psw_changed"/>
+				</c:if>
+				<c:if test="${accountAvatarLoadedMsg}">
+					<spring:message code="avatar_loaded"/>
+				</c:if>
+				
+				
+				</h4>
 			
 			<sf:form  class="formAccountView" >	
 			<span class="fleft">

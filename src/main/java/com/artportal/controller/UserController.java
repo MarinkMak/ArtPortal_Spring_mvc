@@ -1,7 +1,5 @@
 package com.artportal.controller;
 
-import java.util.regex.Pattern;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -29,13 +27,14 @@ public class UserController {
 	private IUserService userService;
 	
 
-	//loads modelAttribute object for account view
+//--------- loads modelAttribute object for account view --------
 	@RequestMapping(value="account/{userlogin}", method=RequestMethod.GET)
 		public String showUserAccount(@PathVariable String userlogin, HttpSession session, Model model) {
 		model.addAttribute("user", session.getAttribute("user"));
 		return "account";
 	}
 	
+//--------- loads modelAttribute object for user information view --------
 	@RequestMapping(value="userInfo/{userlogin}", method=RequestMethod.GET)
 	public String showUserInfo(@PathVariable String userlogin, HttpSession session, Model model) {
 		model.addAttribute("userInfo", userService.findUserByLogin(userlogin));
@@ -57,7 +56,7 @@ public class UserController {
 			//update user in database and model
 			userService.updateUser(updatedUser);
 			model.addAttribute("user", updatedUser);
-			model.addAttribute("accountEditMsg", "Your data was changed successfully!");
+			model.addAttribute("accountDataEditMsg",true);
 			return "account";
 		}
 		return "accountedit";
@@ -74,7 +73,7 @@ public class UserController {
 	@RequestMapping(value="account/submitPswEdit",method = RequestMethod.POST)
 	public String passwordEdit(Model model,HttpServletRequest request, HttpSession session,
 			@Valid @ModelAttribute User user, BindingResult bindingResult) {
-		boolean isPswConfirmed = checkPasswordConfirm(user.getPassword(),user.getConfirmPassword(),model);
+		boolean isPswConfirmed = userService.checkPasswordConfirm(user.getPassword(),user.getConfirmPassword(),model);
 		if (!bindingResult.hasErrors()&&isPswConfirmed){
 			User updatedUser = (User) session.getAttribute("user");
 			updatedUser.setPassword(user.getPassword());
@@ -82,7 +81,7 @@ public class UserController {
 			//update user in database and model
 			userService.updateUser(updatedUser);
 			model.addAttribute("user", updatedUser);
-			model.addAttribute("accountEditMsg", "Passford was changed successfully!");
+			model.addAttribute("accountPswEditMsg", true);
 			return "account";
 		}
 		return "accountpsw";
@@ -101,12 +100,12 @@ public class UserController {
 				//update user in model
 				session.setAttribute("user", updatedUser);
 				model.addAttribute("user", updatedUser);
-				model.addAttribute("accountEditMsg", "Avatar was loaded successfully!");
+				model.addAttribute("accountAvatarLoadedMsg", true);
 				return "account";
 			}
 			
 			if(!image.getContentType().equals("image/jpeg")||image.isEmpty()){
-				model.addAttribute("loadMsg", "Choose file in jpg format!");
+				model.addAttribute("loadJpgMsg", true);
 			}
 			return "accountavatar";
 	}
@@ -117,12 +116,12 @@ public class UserController {
 	@RequestMapping(value="/submitregister",method = RequestMethod.POST)
 	public String register(Model model,HttpServletRequest request, HttpSession session,
 			@Valid @ModelAttribute User user, BindingResult bindingResult) {
-		boolean isLoginUnique = checkLoginUnique(user.getLogin(),model);
-		boolean isLoginNotEmpty = checkLoginNotEmpty(user.getLogin(),model);
-		boolean isPswConfirmed = checkPasswordConfirm(user.getPassword(),user.getConfirmPassword(),model);
+		boolean isLoginUnique = userService.checkLoginUnique(user.getLogin(),model);
+		boolean isLoginNotEmpty = userService.checkLoginNotEmpty(user.getLogin(),model);
+		boolean isPswConfirmed = userService.checkPasswordConfirm(user.getPassword(),user.getConfirmPassword(),model);
 		if (!bindingResult.hasErrors()&&isLoginUnique&&isLoginNotEmpty&&isPswConfirmed){
 			session.invalidate();
-			session = request.getSession(); // create new session
+			session = request.getSession(); 
 			session.setAttribute("login",user.getLogin());
 			//session.setAttribute("user", user);//
 			//save new user in database
@@ -139,9 +138,9 @@ public class UserController {
 	public String login(Model model, HttpServletRequest request,
 			HttpSession session, @RequestParam("login") String login,
 			@RequestParam("password") String password) {
-		if (checkUserLoginData(login, password, model)){
+		if (userService.checkUserLoginData(login, password, model)){
 			session.invalidate();
-			session = request.getSession(); // create new session
+			session = request.getSession(); 
 			//fixed trouble with first letter in login
 			session.setAttribute("login", userService.findUserByLogin(login).getLogin());
 			session.setAttribute("user", userService.findUserByLogin(login));//
@@ -158,49 +157,5 @@ public class UserController {
 		return "redirect:/test";
 	}
 			
-	//login service
-	public boolean checkUserLoginData(String login, String password, Model model){
-		User user = userService.findUserByLogin(login);
-		if (user!=null&&user.getPassword().equals(password)){
-			if(user.getActive()==false){
-				model.addAttribute("failLoginMsg", true);
-				return false;
-			}
-			return true;			
-		}
-		model.addAttribute("wrongLoginMsg", true);
-		return false;
-	}
-	
-	//register service
-	public boolean checkLoginUnique(String login, Model model){
-		if (userService.findUserByLogin(login)==null){
-			return true;
-		}else{
-			model.addAttribute("checkLoginUniqueMsg", true);
-		}
-		return false;
-	}
-	//register service
-	public boolean checkLoginNotEmpty(String login, Model model){
-		if (!Pattern.matches("[\\s]+",login)){
-			return true;
-		}else{
-			model.addAttribute("emptyLoginMsg", true);
-		}
-		return false;
-	}
-	
-	//register service
-	public boolean checkPasswordConfirm(String password, String confirmPassword,Model model){
-		if(password==null){
-			model.addAttribute("emptyPswMsg", true);
-			return false;
-		}
-		if(confirmPassword!=null&&password.equals(confirmPassword)){
-			return true;
-		}
-		model.addAttribute("confirmPswMsg", true);
-		return false;
-	}  
+
 }

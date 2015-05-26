@@ -3,11 +3,13 @@ package com.artportal.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.artportal.domain.ArtWork;
@@ -89,4 +91,56 @@ public class UserService implements IUserService {
 	public List<User> findUsersByLoginPart(String userLogin) {
 		return userRepository.findUsersByLoginPart(userLogin);
 	}
+
+	
+//----- check inputing data on login page -----------
+	
+	@Override
+	public boolean checkUserLoginData(String login, String password, Model model){
+		User user = findUserByLogin(login);
+		if (user!=null&&user.getPassword().equals(password)){
+			if(user.getActive()==false){
+				model.addAttribute("failLoginMsg", true);
+				return false;
+			}
+			return true;			
+		}
+		model.addAttribute("wrongLoginMsg", true);
+		return false;
+	}
+	
+	@Override
+	public boolean checkLoginUnique(String login, Model model){
+		if (findUserByLogin(login)==null){
+			return true;
+		}else{
+			model.addAttribute("checkLoginUniqueMsg", true);
+		}
+		return false;
+	}
+	
+//----- check inputing data on register page -----------
+	
+	@Override
+	public boolean checkLoginNotEmpty(String login, Model model){
+		if (!Pattern.matches("[\\s]+",login)){
+			return true;
+		}else{
+			model.addAttribute("emptyLoginMsg", true);
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean checkPasswordConfirm(String password, String confirmPassword,Model model){
+		if(password==null){
+			model.addAttribute("emptyPswMsg", true);
+			return false;
+		}
+		if(confirmPassword!=null&&password.equals(confirmPassword)){
+			return true;
+		}
+		model.addAttribute("confirmPswMsg", true);
+		return false;
+	}  
 }
