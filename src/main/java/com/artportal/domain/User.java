@@ -74,7 +74,7 @@ public class User {
 	private Role role;
 	
 //	@OneToMany(mappedBy="user",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
-	@OneToMany(mappedBy="user",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="user",cascade={CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
 	private List<ArtWork> works = new ArrayList<ArtWork>();
 	
 	@OneToMany(mappedBy="user")

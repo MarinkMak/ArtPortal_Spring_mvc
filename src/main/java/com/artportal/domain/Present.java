@@ -29,7 +29,7 @@ public class Present {
 	private String photoPath;
 	private String description;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade={CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="competition_id")
 	private Competition competition;
 

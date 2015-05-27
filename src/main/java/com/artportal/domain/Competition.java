@@ -50,11 +50,11 @@ public class Competition {
 	private User winner;
 	
 //	@OneToMany(fetch=FetchType.EAGER,mappedBy="competition",cascade=CascadeType.ALL)
-	@OneToMany(mappedBy="competition",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="competition",cascade={CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
 	private List<ArtWork> works = new ArrayList<ArtWork>();
 	
 //	@OneToMany(fetch=FetchType.EAGER,mappedBy="competition",cascade=CascadeType.ALL)
-	@OneToMany(mappedBy="competition",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="competition",cascade={CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
 	private List<Present> presents = new ArrayList<Present>();
 	
 //--------------------------------------
