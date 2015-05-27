@@ -27,7 +27,6 @@ public class JpaArtWorkRepository implements ArtWorkRepository{
 	@Transactional
 	@Override
 	public void create(ArtWork work) {
-	//	em.merge(work.getUser());//1
 		em.persist(work);
 	}
 
@@ -119,9 +118,13 @@ public class JpaArtWorkRepository implements ArtWorkRepository{
 
 	@Override
 	public Long getCountOfAllCompWorks(Competition competition) {
-		Query query = em.createNamedQuery("ArtWork.getCountOfCompWorks");
-		query.setParameter("competition", competition);
-		return (Long) query.getSingleResult();
+		try{
+			TypedQuery<Long> query =  em.createNamedQuery("ArtWork.getCountOfCompWorks",Long.class);
+			query.setParameter("competition", competition);
+			return query.getSingleResult();
+		} catch(NoResultException e) {
+			return null;
+		}	
 	}
 
 }

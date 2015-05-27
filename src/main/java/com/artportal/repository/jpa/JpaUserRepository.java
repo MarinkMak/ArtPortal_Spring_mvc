@@ -73,14 +73,18 @@ public class JpaUserRepository implements UserRepository{
 	public List<User> findUsersByPage(int pageNumber, int pageSize) {
 		TypedQuery<User> query = em.createNamedQuery("User.findAll",User.class);
 		query.setFirstResult((pageNumber-1) * pageSize); 
-		query.setMaxResults(pageSize);
+		query.setMaxResults(pageSize);		
 		return query.getResultList();
 	}
 
 	@Override
 	public Long getCountOfAllUsers() {
-		Query query = em.createNamedQuery("User.getCountOfAllUsers");
-		return (Long) query.getSingleResult();
+		try{
+			TypedQuery<Long> query =  em.createNamedQuery("User.getCountOfAllUsers",Long.class);
+			return query.getSingleResult();
+		} catch(NoResultException e) {
+			return null;
+		}		
 	}
 
 	@Override

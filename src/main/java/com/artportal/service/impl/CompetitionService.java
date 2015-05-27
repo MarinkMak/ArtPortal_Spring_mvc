@@ -18,7 +18,6 @@ public class CompetitionService implements ICompetitionService {
 	@Override
 	public void saveCompetition(Competition competition) {
 		competitionRepository.create(competition);
-
 	}
 
 	@Override
@@ -29,13 +28,11 @@ public class CompetitionService implements ICompetitionService {
 	@Override
 	public void updateCompetition(Competition competition) {
 		competitionRepository.update(competition);
-
 	}
 
 	@Override
 	public void deleteCompetition(Long id) {
 		competitionRepository.delete(id);
-
 	}
 
 	@Override

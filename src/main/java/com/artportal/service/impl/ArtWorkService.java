@@ -37,7 +37,6 @@ public class ArtWorkService implements IArtWorkService {
 	@Override
 	public void createWork(ArtWork work) {
 		artWorkRepository.create(work);
-
 	}
 
 	@Override
@@ -48,13 +47,11 @@ public class ArtWorkService implements IArtWorkService {
 	@Override
 	public void updateWork(ArtWork work) {
 		artWorkRepository.update(work);
-
 	}
 
 	@Override
 	public void deleteWork(Long id) {
 		artWorkRepository.delete(id);
-
 	}
 
 	@Override
@@ -113,15 +110,12 @@ public class ArtWorkService implements IArtWorkService {
 
 	@Override
 	public void addComment(Comment comment) {
-//		artWorkRepository.update(comment.getWork());
-//		userRepository.update(comment.getUser());
 		commentRepository.create(comment);
 	}
 
 	@Override
 	public void addVoice(Voice voice) {
 		voiceRepository.create(voice);
-		
 	}
 
 	@Override

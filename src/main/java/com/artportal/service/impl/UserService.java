@@ -69,7 +69,6 @@ public class UserService implements IUserService {
 	public void makeUserNotActive(User user) {
 		user.setActive(false);
 		userRepository.update(user);
-		
 	}
 
 	@Override
