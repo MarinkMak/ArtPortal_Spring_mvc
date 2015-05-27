@@ -40,7 +40,15 @@ public class WorkController {
 	@Autowired
 	@Qualifier("competitionService")
 	private ICompetitionService competitionService;
-
+	
+	@Autowired
+	Comment comment;
+	@Autowired
+	Voice voice;
+	@Autowired
+	ArtWork work;
+	
+	
 	private int pageSize = 6;
 	private int pageNumber = 1;
 	private Long pageCount;
@@ -78,7 +86,10 @@ public class WorkController {
 		ArtWork work = artWorkService.getWorkByName(session.getAttribute("workName").toString());
 		User user = userService.findUserByLogin(session.getAttribute("login").toString());
 		if(user.getCommentAble()){
-			Comment comment = new Comment(commentText,work,user);
+			//Comment comment = new Comment(commentText,work,user);//
+			comment.setCommentText(commentText);
+			comment.setWork(work);
+			comment.setUser(user);
 			//check double sending
 			if(work.getComments().size()==0||!comment.equals(work.getComments().get(work.getComments().size()-1))){
 				artWorkService.addComment(comment);
@@ -95,7 +106,9 @@ public class WorkController {
 	public String addLike(Model model, HttpSession session) {
 		ArtWork work = artWorkService.getWorkByName(session.getAttribute("workName").toString());
 		User user = userService.findUserByLogin(session.getAttribute("login").toString());
-		Voice voice = new Voice(work,user);
+		//Voice voice = new Voice(work,user);//
+		voice.setWork(work);
+		voice.setUser(user);
 		artWorkService.addVoice(voice);
 		work.getVoices().add(voice);
 		model.addAttribute("work",work);
@@ -117,7 +130,8 @@ public class WorkController {
 
 	@RequestMapping(value = { "/account/loadWork" }, method = RequestMethod.GET)
 	public String loadWorkForm(Model model, HttpSession session) {
-		model.addAttribute("work", new ArtWork());
+		//model.addAttribute("work", new ArtWork());//
+		model.addAttribute("work", work);
 		model.addAttribute("artTypes", artTypeService.getAllArtTypes());
 		model.addAttribute("competitions", competitionService.getAllCompetitions());
 		return "accountloadwork";
@@ -135,7 +149,7 @@ public class WorkController {
 		model.addAttribute("artTypes", artTypeService.getAllArtTypes());
 		model.addAttribute("competitions", competitionService.getAllCompetitions());
 		String fileName = image.getOriginalFilename();
-		ArtWork work = new ArtWork();
+		//ArtWork work = new ArtWork();
 		work.setPath(fileName);
 		work.setName(workName);
 		work.setType(artTypeService.getArtTypeByName(workTypeName));

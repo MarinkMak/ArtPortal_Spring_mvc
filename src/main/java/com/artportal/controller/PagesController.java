@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,9 @@ import com.artportal.exception.CustomException;
 
 @Controller
 public class PagesController {
+	
+	@Autowired
+	User user;
 	
 //----------- exceptions testing -------------
 	
@@ -63,7 +67,8 @@ public class PagesController {
 	 //loads modelAttribute object for register form
 	 @RequestMapping(value = {"/register"}, method = RequestMethod.GET)
 	 public String register(Model model) {
-		 model.addAttribute("user", new User());
+		// model.addAttribute("user", new User());
+		 model.addAttribute("user", user);
 		 return "register";
 	 }
 	 
@@ -104,7 +109,8 @@ public class PagesController {
 	  
 	 @RequestMapping(value = "/account/changePsw", method = RequestMethod.GET)
 	 public String changePswForm(Model model) {
-		 model.addAttribute("user", new User());
+		// model.addAttribute("user", new User());
+		 model.addAttribute("user", user);
 		 return "accountpsw";
 	 }
 	 @RequestMapping(value = "/account/userWorks", method = RequestMethod.GET)
