@@ -71,50 +71,39 @@ public class CompetitionController {
 		@RequestMapping(value = { "/compworks/nextcw", "/nextcw" }, method = RequestMethod.GET)
 		public String artWorksCompNextPage(Model model, HttpSession session) {
 			pageNumberCW++;
-			List<ArtWork> works = artWorkService.getCompWorksOnPage(pageNumberCW, pageSize,
-					(Competition) session.getAttribute("comp"));
-			pageCountCW = artWorkService.getPagesCountForCompWorks(pageSize, (Competition) session.getAttribute("comp"));
-			model.addAttribute("artWorks", works);
-			model.addAttribute("pageCount", pageCountCW);
-			model.addAttribute("pageNumber", pageNumberCW);
-			 System.out.println("********** comp id= " +session.getAttribute("compId"));//**************
+			updatePage(model, session, pageNumberCW);
 			return "redirect:/compworks";
 		}
 
 		@RequestMapping(value = { "/compworks/prevcw", "/prevcw" }, method = RequestMethod.GET)
 		public String artWorksCompPrevPage(Model model, HttpSession session) {
 			pageNumberCW--;
-			List<ArtWork> works = artWorkService.getCompWorksOnPage(pageNumberCW, pageSize,
-					(Competition) session.getAttribute("comp"));
-			pageCountCW = artWorkService.getPagesCountForCompWorks(pageSize,(Competition) session.getAttribute("comp"));
-			model.addAttribute("artWorks", works);
-			model.addAttribute("pageCount", pageCountCW);
-			model.addAttribute("pageNumber", pageNumberCW);
+			updatePage(model, session, pageNumberCW);
 			return "redirect:/compworks";
 		}
 
 		@RequestMapping(value = { "/compworks/firstcw", "/firstcw" }, method = RequestMethod.GET)
 		public String artWorksCompFirstPage(Model model, HttpSession session) {
 			pageNumberCW = 1;
+			updatePage(model, session, pageNumberCW);
+			return "redirect:/compworks";
+		}
+
+		@RequestMapping(value = { "/compworks/lastcw", "/lastcw" }, method = RequestMethod.GET)
+		public String artWorksCompLastPage(Model model, HttpSession session) {
+			pageCountCW = artWorkService.getPagesCountForCompWorks(pageSize,(Competition) session.getAttribute("comp"));
+			pageNumberCW = pageCountCW.intValue();
+			updatePage(model, session, pageNumberCW);
+			return "redirect:/compworks";
+		}
+		
+		public void updatePage(Model model, HttpSession session, int pageNumberCW){
 			List<ArtWork> works = artWorkService.getCompWorksOnPage(pageNumberCW, pageSize, 
 					(Competition) session.getAttribute("comp"));
 			pageCountCW = artWorkService.getPagesCountForCompWorks(pageSize,(Competition) session.getAttribute("comp"));
 			model.addAttribute("artWorks", works);
 			model.addAttribute("pageCount", pageCountCW);
 			model.addAttribute("pageNumber", pageNumberCW);
-			return "redirect:/compworks";
-		}
-
-		@RequestMapping(value = { "/compworks/lastcw", "/lastcw" }, method = RequestMethod.GET)
-		public String artWorksCompLastPage(Model model, HttpSession session) {
-			List<ArtWork> works = artWorkService.getCompWorksOnPage(pageNumberCW, pageSize,
-					(Competition) session.getAttribute("comp"));
-			pageCountCW = artWorkService.getPagesCountForCompWorks(pageSize,(Competition) session.getAttribute("comp"));
-			pageNumberCW = pageCountCW.intValue();
-			model.addAttribute("artWorks", works);
-			model.addAttribute("pageCount", pageCountCW);
-			model.addAttribute("pageNumber", pageNumberCW);
-			return "redirect:/compworks";
 		}
 	 
 }

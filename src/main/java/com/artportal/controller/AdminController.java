@@ -113,7 +113,6 @@ public class AdminController {
 		userService.updateUser(user);
 		List<User> users = userService.findUsersByLoginPart(session.getAttribute("loginPart").toString());
 		model.addAttribute("users",users);
-		// return "redirect:/adminUsersFind";
 		return "adminusersfind";
 	}
 	
