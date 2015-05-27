@@ -16,14 +16,19 @@ import com.artportal.exception.CustomException;
 @Controller
 public class PagesController {
 	
+//----------- exceptions testing -------------
+	
 	 @RequestMapping(value = "/error", method = RequestMethod.GET)
 	    public void testCustomException(Model model) throws Exception{
 		 throw new CustomException("4XX", "Something goes wrong...");
 	    }
+	 
 	 @RequestMapping(value = "/exc", method = RequestMethod.GET)
 	 public void testException(Model model) throws Exception{
 		 throw new Exception() ;
 	 }
+	 
+//---------- managing pages -----------------------
 	 
 	 @RequestMapping(value = "/notReady", method = RequestMethod.GET)
 	 public String notReady(Model model) {
@@ -49,10 +54,9 @@ public class PagesController {
 		 return "home";
 	 }
 	 
-	
+//-------- register page --------------------
 	 
-	 @RequestMapping(value = {"/registerForm","/workInfo/registerForm","/userInfo/registerForm"}, method = RequestMethod.GET)
-	 
+	 @RequestMapping(value = {"/registerForm","/workInfo/registerForm","/userInfo/registerForm"}, method = RequestMethod.GET) 
 	 public String registerForm(Model model) {
 		 return "redirect:/register";
 	 }
@@ -63,6 +67,8 @@ public class PagesController {
 		 return "register";
 	 }
 	 
+//-------- login page -----------------------
+	 
 	 @RequestMapping(value = {"/loginForm","/workInfo/loginForm","/userInfo/loginForm"}, method = RequestMethod.GET)
 	 public String loginForm(Model model) {
 		 return "redirect:/login";
@@ -72,11 +78,9 @@ public class PagesController {
 	 public String login(Model model) {
 		 return "login";
 	 }
-
 	
 // -----------  account page -----------	 
 	 
- 	 
 	 @RequestMapping(value = {"/account","/account/account","/account/view","/workInfo/account","/userInfo/account"}, method = RequestMethod.GET)
 	 public String accountForm(Model model, HttpSession session) {
 		 return "redirect:/account/"+session.getAttribute("login");
@@ -108,8 +112,7 @@ public class PagesController {
 		 model.addAttribute("user", session.getAttribute("user"));
 		 return "accountworks";
 	 }
-	
-	 	 
+		 	 
 	 @RequestMapping(value = {"/cancelEdit","/account/cancelEdit"},method = RequestMethod.POST)
 	 public String cancelEditAccount(Model model,HttpServletRequest request,HttpSession session) {
 		 session.setAttribute("accountEditMsg", null);

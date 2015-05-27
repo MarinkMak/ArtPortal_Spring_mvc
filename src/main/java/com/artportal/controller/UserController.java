@@ -26,21 +26,19 @@ public class UserController {
 	@Qualifier("userService")
 	private IUserService userService;
 	
-
-//--------- loads modelAttribute object for account view --------
+	//loads modelAttribute object for account view
 	@RequestMapping(value="account/{userlogin}", method=RequestMethod.GET)
-		public String showUserAccount(@PathVariable String userlogin, HttpSession session, Model model) {
+	public String showUserAccount(@PathVariable String userlogin, HttpSession session, Model model) {
 		model.addAttribute("user", session.getAttribute("user"));
 		return "account";
 	}
 	
-//--------- loads modelAttribute object for user information view --------
+	//loads modelAttribute object for user information view
 	@RequestMapping(value="userInfo/{userlogin}", method=RequestMethod.GET)
 	public String showUserInfo(@PathVariable String userlogin, HttpSession session, Model model) {
 		model.addAttribute("userInfo", userService.findUserByLogin(userlogin));
 		return "userInfo";
 	}
-	
 
 //---------- edit user data ---------------	
 	
@@ -68,8 +66,7 @@ public class UserController {
 		session.invalidate();
 		return "redirect:/test";
 	}
-	
-	
+		
 	@RequestMapping(value="account/submitPswEdit",method = RequestMethod.POST)
 	public String passwordEdit(Model model,HttpServletRequest request, HttpSession session,
 			@Valid @ModelAttribute User user, BindingResult bindingResult) {
@@ -123,7 +120,7 @@ public class UserController {
 			session.invalidate();
 			session = request.getSession(); 
 			session.setAttribute("login",user.getLogin());
-			//session.setAttribute("user", user);//
+			session.setAttribute("user", user);
 			//save new user in database
 			userService.saveUser(user);
 			//redirect on account page for edit
@@ -143,7 +140,7 @@ public class UserController {
 			session = request.getSession(); 
 			//fixed trouble with first letter in login
 			session.setAttribute("login", userService.findUserByLogin(login).getLogin());
-			session.setAttribute("user", userService.findUserByLogin(login));//
+			session.setAttribute("user", userService.findUserByLogin(login));
 			return "home";
 		}
 		return "login";

@@ -134,46 +134,39 @@ public class AdminController {
 	@RequestMapping(value = { "/adminUsers/aunext", "/aunext" }, method = RequestMethod.GET)
 	public String usersNextPage(Model model) {
 		pageNumber++;
-		List<User> users = userService.getAllUsers();
-		pageCount = userService.getPagesCount(pageSize);
-		model.addAttribute("users",users);
-		model.addAttribute("pageCount", pageCount);
-		model.addAttribute("pageNumber", pageNumber);
+		updatePage(model);
 		return "redirect:/adminUsers";
 	}
 
 	@RequestMapping(value = { "/adminUsers/auprev", "/auprev" }, method = RequestMethod.GET)
 	public String usersPrevPage(Model model) {
 		pageNumber--;
-		List<User> users = userService.getAllUsers();
-		pageCount = userService.getPagesCount(pageSize);
-		model.addAttribute("users",users);
-		model.addAttribute("pageCount", pageCount);
-		model.addAttribute("pageNumber", pageNumber);
+		updatePage(model);
 		return "redirect:/adminUsers";
 	}
 
 	@RequestMapping(value = { "/adminUsers/aufirst", "/aufirst" }, method = RequestMethod.GET)
 	public String usersFirstPage(Model model) {
 		pageNumber = 1;
-		List<User> users = userService.getAllUsers();
-		pageCount = userService.getPagesCount(pageSize);
-		model.addAttribute("users",users);
-		model.addAttribute("pageCount", pageCount);
-		model.addAttribute("pageNumber", pageNumber);
+		updatePage(model);
 		return "redirect:/adminUsers";
 	}
 
 	@RequestMapping(value = { "/adminUsers/aulast", "/aulast" }, method = RequestMethod.GET)
 	public String usersLastPage(Model model) {
-		List<User> users = userService.getAllUsers();
 		pageCount = userService.getPagesCount(pageSize);
 		pageNumber = pageCount.intValue();
-		model.addAttribute("users",users);
-		model.addAttribute("pageCount", pageCount);
-		model.addAttribute("pageNumber", pageNumber);
+		updatePage(model);
 		return "redirect:/adminUsers";
 	}
 
+	public void updatePage(Model model){
+		List<User> users = userService.getAllUsers();
+		pageCount = userService.getPagesCount(pageSize);
+		model.addAttribute("users",users);
+		model.addAttribute("pageCount", pageCount);
+		model.addAttribute("pageNumber", pageNumber);
+	}
+	
 	
 }

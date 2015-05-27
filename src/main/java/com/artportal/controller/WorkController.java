@@ -101,13 +101,11 @@ public class WorkController {
 		model.addAttribute("work",work);
 		boolean voitedUser = isUserVoited(user,work);
 		model.addAttribute("voitedUser", voitedUser);
-		//return "artwork";
 		return "redirect:/workInfo/"+work.getName();
 	}
 
 	@RequestMapping(value = { "/artworks" }, method = RequestMethod.GET)
 	public String artWorks(Model model) {
-		// pageNumber = 1;
 		List<ArtWork> works = artWorkService.getApprovedWorksOnPage(pageNumber,
 				pageSize);
 		pageCount = artWorkService.getPagesCountForApproved(pageSize);
@@ -136,10 +134,6 @@ public class WorkController {
 			@RequestParam(value = "image", required = false) MultipartFile image) {
 		model.addAttribute("artTypes", artTypeService.getAllArtTypes());
 		model.addAttribute("competitions", competitionService.getAllCompetitions());
-		// if(image.getSize()>480000){
-		// model.addAttribute("errTypeMsg","Too much size of file!");
-		// return "accountloadwork";
-		// }
 		String fileName = image.getOriginalFilename();
 		ArtWork work = new ArtWork();
 		work.setPath(fileName);
@@ -172,7 +166,6 @@ public class WorkController {
 		User user = (User) session.getAttribute("user");
 		work.setUser(user);
 		work.setApproved(true);
-
 		// save work in file system an in db
 		artWorkService.saveNewArtWork(work, fileName, image);
 		// update user in model
@@ -186,7 +179,6 @@ public class WorkController {
 		return "accountworks";
 	}
 	
-	//service?
 	public boolean checkUnique(String artWorkName, Model model) {
 		if (artWorkService.getWorkByName(artWorkName) == null) {
 			return true;
@@ -201,51 +193,39 @@ public class WorkController {
 		@RequestMapping(value = { "/artworks/next", "/next" }, method = RequestMethod.GET)
 		public String artWorksNextPage(Model model) {
 			pageNumber++;
-			List<ArtWork> works = artWorkService.getApprovedWorksOnPage(pageNumber,
-					pageSize);
-			pageCount = artWorkService.getPagesCountForApproved(pageSize);
-			model.addAttribute("artWorks", works);
-			model.addAttribute("pageCount", pageCount);
-			model.addAttribute("pageNumber", pageNumber);
+			updatePage(model);
 			return "redirect:/artworks";
 		}
 
 		@RequestMapping(value = { "/artworks/prev", "/prev" }, method = RequestMethod.GET)
 		public String artWorksPrevPage(Model model) {
 			pageNumber--;
-			List<ArtWork> works = artWorkService.getApprovedWorksOnPage(pageNumber,
-					pageSize);
-			pageCount = artWorkService.getPagesCountForApproved(pageSize);
-			model.addAttribute("artWorks", works);
-			model.addAttribute("pageCount", pageCount);
-			model.addAttribute("pageNumber", pageNumber);
+			updatePage(model);
 			return "redirect:/artworks";
 		}
 
 		@RequestMapping(value = { "/artworks/first", "/first" }, method = RequestMethod.GET)
 		public String artWorksFirstPage(Model model) {
 			pageNumber = 1;
-			List<ArtWork> works = artWorkService.getApprovedWorksOnPage(pageNumber,
-					pageSize);
-			pageCount = artWorkService.getPagesCountForApproved(pageSize);
-			model.addAttribute("artWorks", works);
-			model.addAttribute("pageCount", pageCount);
-			model.addAttribute("pageNumber", pageNumber);
+			updatePage(model);
 			return "redirect:/artworks";
 		}
 
 		@RequestMapping(value = { "/artworks/last", "/last" }, method = RequestMethod.GET)
 		public String artWorksLastPage(Model model) {
-			List<ArtWork> works = artWorkService.getApprovedWorksOnPage(pageNumber,
-					pageSize);
 			pageCount = artWorkService.getPagesCountForApproved(pageSize);
 			pageNumber = pageCount.intValue();
-			model.addAttribute("artWorks", works);
-			model.addAttribute("pageCount", pageCount);
-			model.addAttribute("pageNumber", pageNumber);
+			updatePage(model);
 			return "redirect:/artworks";
 		}
 		
-	
+		public void updatePage(Model model){
+			List<ArtWork> works = artWorkService.getApprovedWorksOnPage(pageNumber,
+					pageSize);
+			pageCount = artWorkService.getPagesCountForApproved(pageSize);
+			model.addAttribute("artWorks", works);
+			model.addAttribute("pageCount", pageCount);
+			model.addAttribute("pageNumber", pageNumber);
+		}
 	
 }
