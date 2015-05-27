@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +34,9 @@ public class ArtWorkService implements IArtWorkService {
 	VoiceRepository voiceRepository;
 	@Autowired
 	UserRepository userRepository;
+	
+	@Value("${artPortaFilesPath}")
+	String artPortaFilesPath;
 
 	@Override
 	public void createWork(ArtWork work) {
@@ -89,7 +93,7 @@ public class ArtWorkService implements IArtWorkService {
 	public void saveNewArtWork(ArtWork work, String filename,
 			MultipartFile image) {
 		artWorkRepository.create(work);
-		String artPortalWorkPath = "/home/marina/Marina/ArtPortalImages/Works/";
+		String artPortalWorkPath = artPortaFilesPath + "Works/";
 		File file = new File(artPortalWorkPath + filename);
 		try {
 			FileUtils.writeByteArrayToFile(file, image.getBytes());

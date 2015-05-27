@@ -7,12 +7,12 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.artportal.domain.ArtWork;
 import com.artportal.domain.User;
 import com.artportal.repository.interfaces.RoleRepository;
 import com.artportal.repository.interfaces.UserRepository;
@@ -25,6 +25,10 @@ public class UserService implements IUserService {
 	UserRepository userRepository;
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@Value("${artPortaFilesPath}")
+	String artPortaFilesPath;
+	
 
 	@Override
 	public User findUserById(Long id) {
@@ -56,7 +60,7 @@ public class UserService implements IUserService {
 	@Override
 	public void updateUserAvatar(User user, String filename, MultipartFile image) {
 		userRepository.update(user);
-		String artPortalAvatarPath = "/home/marina/Marina/ArtPortalImages/Avatars/";
+		String artPortalAvatarPath = artPortaFilesPath + "Avatars/";
 		File file = new File(artPortalAvatarPath + filename);
 		try {
 			FileUtils.writeByteArrayToFile(file, image.getBytes());
