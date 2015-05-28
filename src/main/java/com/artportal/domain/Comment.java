@@ -45,6 +45,7 @@ public class Comment {
 	
 //------------------------------
 	public Comment() {
+		this.loadDate = new Date();
 	}
 
 	public Comment(String text, ArtWork work, User user) {

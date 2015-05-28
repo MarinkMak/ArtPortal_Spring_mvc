@@ -46,6 +46,7 @@ public class Voice {
 	
 //-------------------------------------
 	public Voice() {
+		this.voiceValue = 1;
 	}
 	
 	

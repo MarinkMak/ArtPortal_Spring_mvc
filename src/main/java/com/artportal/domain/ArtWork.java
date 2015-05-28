@@ -65,17 +65,16 @@ public class ArtWork {
 	@JoinColumn(name="competition_id")
 	private Competition competition;
 	
-//	@OneToMany(fetch=FetchType.EAGER,mappedBy="work",cascade=CascadeType.ALL)
 	@OneToMany(mappedBy="work",cascade={CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
 	private List<Comment> comments = new ArrayList<Comment>();
 	
-//	@OneToMany(fetch=FetchType.EAGER,mappedBy="work",cascade=CascadeType.ALL)
 	@OneToMany(mappedBy="work",cascade={CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
 	private List<Voice> voices = new ArrayList<Voice>(); 
 	
 	
 //-----------------------------------
 	public ArtWork() {
+		this.loadDate = new Date();//
 	}
 	
 	public ArtWork(String name, ArtType type, String path, User user) {

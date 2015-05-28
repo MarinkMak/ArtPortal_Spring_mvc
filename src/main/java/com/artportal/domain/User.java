@@ -73,7 +73,6 @@ public class User {
 	@JoinColumn(name="role_id")
 	private Role role;
 	
-//	@OneToMany(mappedBy="user",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@OneToMany(mappedBy="user",cascade={CascadeType.MERGE,CascadeType.DETACH, CascadeType.REFRESH})
 	private List<ArtWork> works = new ArrayList<ArtWork>();
 	
@@ -88,6 +87,8 @@ public class User {
 //----------------------		
 	public User() {
 		this.photoPath = "noavatar.jpg";
+		this.commentAble = true;
+		this.active = true;
 	}
 
 	public User(String login) {

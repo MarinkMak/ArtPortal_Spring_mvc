@@ -61,7 +61,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = {"/account/submitAccountNotActive"}, method = RequestMethod.POST)
-	public String accountDelete(Model model, HttpServletRequest request,HttpSession session){
+	public String makeAccountNotActive(Model model, HttpServletRequest request,HttpSession session){
 		userService.makeUserNotActive(userService.findUserByLogin((String) session.getAttribute("login")));
 		session.invalidate();
 		return "redirect:/test";

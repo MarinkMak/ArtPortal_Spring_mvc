@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.artportal.domain.ArtWork;
@@ -42,13 +43,9 @@ public class WorkController {
 	private ICompetitionService competitionService;
 	
 	@Autowired
-	Comment comment;
-	@Autowired
-	Voice voice;
-	@Autowired
-	ArtWork work;
-	
-	
+	private WebApplicationContext context;
+
+		
 	private int pageSize = 6;
 	private int pageNumber = 1;
 	private Long pageCount;
@@ -86,7 +83,7 @@ public class WorkController {
 		ArtWork work = artWorkService.getWorkByName(session.getAttribute("workName").toString());
 		User user = userService.findUserByLogin(session.getAttribute("login").toString());
 		if(user.getCommentAble()){
-			//Comment comment = new Comment(commentText,work,user);//
+			Comment comment=(Comment) context.getBean("comment");
 			comment.setCommentText(commentText);
 			comment.setWork(work);
 			comment.setUser(user);
@@ -106,7 +103,7 @@ public class WorkController {
 	public String addLike(Model model, HttpSession session) {
 		ArtWork work = artWorkService.getWorkByName(session.getAttribute("workName").toString());
 		User user = userService.findUserByLogin(session.getAttribute("login").toString());
-		//Voice voice = new Voice(work,user);//
+		Voice voice = (Voice) context.getBean("voice");
 		voice.setWork(work);
 		voice.setUser(user);
 		artWorkService.addVoice(voice);
@@ -130,7 +127,7 @@ public class WorkController {
 
 	@RequestMapping(value = { "/account/loadWork" }, method = RequestMethod.GET)
 	public String loadWorkForm(Model model, HttpSession session) {
-		//model.addAttribute("work", new ArtWork());//
+		ArtWork work = (ArtWork) context.getBean("artWork");
 		model.addAttribute("work", work);
 		model.addAttribute("artTypes", artTypeService.getAllArtTypes());
 		model.addAttribute("competitions", competitionService.getAllCompetitions());
@@ -149,7 +146,7 @@ public class WorkController {
 		model.addAttribute("artTypes", artTypeService.getAllArtTypes());
 		model.addAttribute("competitions", competitionService.getAllCompetitions());
 		String fileName = image.getOriginalFilename();
-		//ArtWork work = new ArtWork();
+		ArtWork work = (ArtWork) context.getBean("artWork");
 		work.setPath(fileName);
 		work.setName(workName);
 		work.setType(artTypeService.getArtTypeByName(workTypeName));

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.artportal.domain.User;
@@ -18,7 +19,7 @@ import com.artportal.exception.CustomException;
 public class PagesController {
 	
 	@Autowired
-	User user;
+	private WebApplicationContext context;
 	
 //----------- exceptions testing -------------
 	
@@ -68,6 +69,7 @@ public class PagesController {
 	 @RequestMapping(value = {"/register"}, method = RequestMethod.GET)
 	 public String register(Model model) {
 		// model.addAttribute("user", new User());
+		 User user = (User) context.getBean("user");
 		 model.addAttribute("user", user);
 		 return "register";
 	 }
@@ -110,6 +112,7 @@ public class PagesController {
 	 @RequestMapping(value = "/account/changePsw", method = RequestMethod.GET)
 	 public String changePswForm(Model model) {
 		// model.addAttribute("user", new User());
+		 User user = (User) context.getBean("user");
 		 model.addAttribute("user", user);
 		 return "accountpsw";
 	 }
