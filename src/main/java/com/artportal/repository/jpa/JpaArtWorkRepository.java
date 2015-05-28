@@ -97,14 +97,22 @@ public class JpaArtWorkRepository implements ArtWorkRepository{
 
 	@Override
 	public Long getCountOfAllApprovedWorks() {
-		Query query = em.createNamedQuery("ArtWork.getCountOfApproved");
-		return (Long) query.getSingleResult();
+		try{
+			TypedQuery<Long> query = em.createNamedQuery("ArtWork.getCountOfApproved", Long.class);
+			return query.getSingleResult();
+		} catch(NoResultException e) {
+			return null;
+		}	
 	}
 
 	@Override
 	public Long getCountOfAllWorks() {
-		Query query = em.createNamedQuery("ArtWork.getCountAll");
-		return (Long) query.getSingleResult();
+		try{
+			TypedQuery<Long> query = em.createNamedQuery("ArtWork.getCountAll", Long.class);
+			return query.getSingleResult();
+		} catch(NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override
